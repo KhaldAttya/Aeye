@@ -9,8 +9,8 @@ using Java and appium
 # Usage 
 clone and create your iOS or Android tests and use the functions as follows : 
 
-Screenshot.takeElementScreenshot(AppiumDriver driver, By element, String path)
-* path is the for the output png file
+* Screenshot.takeElementScreenshot(AppiumDriver driver, By element, String path)
+You just need to pass you driver instance and By object for the element you want to take screenshot. path is for saving the output file.
 
-Compare.compareImages(String actual, String expected, String result)
-* the strings are the paths for the actual and expected png files to compare and the output will be saved on result path
+* Compare.compareImages(String actual, String expected, String result)
+the strings are the paths for the actual and expected png files to compare and the output will be saved on result path
