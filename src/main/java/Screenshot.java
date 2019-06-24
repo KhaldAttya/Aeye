@@ -39,6 +39,41 @@ public class Screenshot {
         System.out.println("Element screenshot was taken successfully: " + path);
 
     }
+    
+    public static void takeAppScreenshot(AppiumDriver<?> mobiledriver,By statusBar,String path) throws IOException {
+        
+        File fullScreenshot = ((TakesScreenshot)mobiledriver).getScreenshotAs(OutputType.FILE);
+        
+        
+        
+        BufferedImage originalImage = ImageIO.read(fullScreenshot);
+        
+        if(mobiledriver.manage().window().getSize().getWidth()
+           !=originalImage.getWidth() | mobiledriver.manage().window().getSize().getHeight()
+           !=originalImage.getHeight()) {
+            originalImage = resize(originalImage,mobiledriver.manage().window().getSize().getWidth(),
+                                   mobiledriver.manage().window().getSize().getHeight());
+            
+        }
+        
+        int x=mobiledriver.findElement(statusBar).getRect().getX();
+        int y=mobiledriver.findElement(statusBar).getRect().getY();
+        int w=mobiledriver.findElement(statusBar).getRect().getWidth();
+        int h=mobiledriver.findElement(statusBar).getRect().getHeight();
+        
+        
+        
+        BufferedImage SubImage = originalImage.getSubimage(0, h, w, (originalImage.getHeight()-h));
+        
+        System.out.println("Element dimension: "+SubImage.getWidth()+"x"+SubImage.getHeight());
+        
+        ImageIO.write(SubImage, "png", new File (path));
+        
+        
+        System.out.println("App screenshot was taken successfully: "+path);
+        
+    }
+    
 
 
     private static BufferedImage resize(BufferedImage img, int newW, int newH) throws IOException {
