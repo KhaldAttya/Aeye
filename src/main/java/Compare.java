@@ -25,7 +25,7 @@ public final class Compare {
         imageComparison.setDestination(resultDestination);
 
         //After configuring the ImageComparison object, can be executed compare() method:
-        //Destination was added, that's why result image would be added.
+        //Destination was added, that's why result image would be saved to resultDestination.
         ComparisonResult comparisonResult = imageComparison.compareImages();
         System.out.println("Result is: " + comparisonResult.getComparisonState());
     }
