@@ -13,7 +13,6 @@ import javax.imageio.ImageIO;
 public final class Compare {
 
 	public static boolean compareImages(String actual, String expected,String result) throws IOException {
-		
 
 				BufferedImage expectedImage = ImageIO.read(new File (expected));
 				BufferedImage actualImage = ImageIO.read(new File (actual));
