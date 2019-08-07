@@ -8,9 +8,20 @@ import java.io.File;
 import java.io.IOException;
 import javax.imageio.ImageIO;
 
+/** class of image comparison.
+ *
+ */
 
 
 public class Compare {
+
+    /** Image comparison function which highlights differences and save the results image.
+     * @param actual File path to the actual screen.
+     * @param expected File path to the expected screen.
+     * @param result File path to save the results to.
+     * @return Returns boolean representing if the actual and expected screens are matching or not.
+     * @throws IOException
+     */
 
 	public static boolean compareImages(String actual, String expected,String result) throws IOException {
 
