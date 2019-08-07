@@ -1,4 +1,4 @@
-package utils;
+package com.github.khaldattya.aeye.utils;
 import com.github.romankh3.image.comparison.ImageComparison;
 import com.github.romankh3.image.comparison.model.ComparisonResult;
 import com.github.romankh3.image.comparison.model.ComparisonState;
@@ -10,7 +10,7 @@ import javax.imageio.ImageIO;
 
 
 
-public final class Compare {
+public class Compare {
 
 	public static boolean compareImages(String actual, String expected,String result) throws IOException {
 

@@ -1,11 +1,11 @@
-package utils;
+package com.github.khaldattya.aeye.utils;
 
 import java.awt.Graphics2D;
 import java.awt.Image;
 import java.awt.image.BufferedImage;
 import java.io.IOException;
 
-public class Resize {
+class Resize {
 	
 	
 	public static BufferedImage resize(BufferedImage img, int newW, int newH) throws IOException {

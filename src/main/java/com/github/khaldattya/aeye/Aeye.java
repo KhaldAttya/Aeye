@@ -1,10 +1,10 @@
+package com.github.khaldattya.aeye;
+
 import java.io.IOException;
-
 import org.openqa.selenium.By;
-
 import io.appium.java_client.AppiumDriver;
-import utils.Compare;
-import utils.Screenshot;
+import com.github.khaldattya.aeye.utils.Compare;
+import com.github.khaldattya.aeye.utils.Screenshot;
 
 public final class Aeye {
 	
