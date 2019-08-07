@@ -1,3 +1,4 @@
+https://maven-badges.herokuapp.com/maven-central/{com.github.KhaldAttya}/{Aeye}/badge.(svg|png)?style={style}
 # Aeye
 Mobile visual testing framework
 using Java and appium
