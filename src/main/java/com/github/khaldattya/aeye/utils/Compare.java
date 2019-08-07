@@ -20,7 +20,7 @@ public class Compare {
      * @param expected File path to the expected screen.
      * @param result File path to save the results to.
      * @return Returns boolean representing if the actual and expected screens are matching or not.
-     * @throws IOException
+     * @throws IOException as it's handling file path of image.
      */
 
 	public static boolean compareImages(String actual, String expected,String result) throws IOException {

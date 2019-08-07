@@ -19,7 +19,7 @@ public  class Screenshot {
 	 * @param driver Appium driver instance should be initiated in your test.
 	 * @param locator By object of locator for the element needed to get screenshot of.
 	 * @param filePath File path to save the screenshot to.
-	 * @throws IOException
+	 * @throws IOException as it's handling file path of image.
 	 */
 	public static void takeElementScreenshot(AppiumDriver<?> driver,By locator,String filePath) throws IOException {
 		
@@ -66,7 +66,7 @@ public  class Screenshot {
 	 * @param driver Appium driver instance should be initiated in your test.
 	 * @param statusBar By object of locator for status bar.
 	 * @param filePath file path to save screenshot to.
-	 * @throws IOException
+	 * @throws IOException as it's handling file path of image.
 	 */
 public static void takeAppScreenshot(AppiumDriver<?> driver,By statusBar,String filePath) throws IOException {
 		
@@ -110,7 +110,7 @@ public static void takeAppScreenshot(AppiumDriver<?> driver,By statusBar,String 
 	 * @param height element height in pt or dp.
 	 * @param designScreenPath path of screen image.
 	 * @param elementScreenPath path to save the cropped element.
-	 * @throws IOException
+	 * @throws IOException as it's handling file path of image.
 	 */
 
 public static void takeElementFromDesign(AppiumDriver<?> driver,int x, int y,int width,int height,String designScreenPath,String elementScreenPath) throws IOException {

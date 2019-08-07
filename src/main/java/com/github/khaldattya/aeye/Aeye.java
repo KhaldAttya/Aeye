@@ -17,7 +17,7 @@ public final class Aeye {
 	 * @param driver Appium driver instance should be initiated in your test.
 	 * @param locator By object of locator for the element needed to get screenshot of.
 	 * @param filePath File path to save the screenshot to.
-	 * @throws IOException
+	 * @throws IOException as it's handling file path of image.
 	 */
 	public static void takeElementScreenshot(AppiumDriver<?> driver,By locator,String filePath) throws IOException {
 		Screenshot.takeElementScreenshot(driver, locator, filePath);
@@ -32,7 +32,7 @@ public final class Aeye {
 	 * @param height element height in pt or dp.
 	 * @param designScreenPath path of screen image.
 	 * @param elementScreenPath path to save the cropped element.
-	 * @throws IOException
+	 * @throws IOException as it's handling file path of image.
 	 */
 	public static void takeElementFromDesign(AppiumDriver<?> driver,int x, int y,int width,int height,String designScreenPath,String elementScreenPath) throws IOException {
 		Screenshot.takeElementFromDesign(driver, x, y, width, height, designScreenPath,elementScreenPath);
@@ -42,7 +42,7 @@ public final class Aeye {
 	 * @param driver Appium driver instance should be initiated in your test.
 	 * @param statusBar By object of locator for status bar.
 	 * @param filePath file path to save screenshot to.
-	 * @throws IOException
+	 * @throws IOException as it's handling file path of image.
 	 */
 	public static void takeAppScreenshot(AppiumDriver<?> driver,By statusBar,String filePath) throws IOException {
 		Screenshot.takeAppScreenshot(driver, statusBar, filePath);
@@ -53,7 +53,7 @@ public final class Aeye {
 	 * @param expected File path to the expected screen.
 	 * @param result File path to save the results to.
 	 * @return Returns boolean representing if the actual and expected screens are matching or not.
-	 * @throws IOException
+	 * @throws IOException as it's handling file path of image.
 	 */
 	public static boolean compareImages(String actual, String expected,String result) throws IOException {
 		

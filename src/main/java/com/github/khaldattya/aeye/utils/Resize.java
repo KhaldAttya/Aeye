@@ -16,10 +16,9 @@ class Resize {
 	 * @param newW the new width.
 	 * @param newH the new height.
 	 * @return the new resized BufferedImage object.
-	 * @throws IOException
 	 */
 	
-	public static BufferedImage resize(BufferedImage img, int newW, int newH) throws IOException {
+	public static BufferedImage resize(BufferedImage img, int newW, int newH)  {
 		Image imgtmp = img;
 		
 		
