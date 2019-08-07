@@ -4,7 +4,7 @@
                       http://maven.apache.org/xsd/maven-4.0.0.xsd">
     <modelVersion>4.0.0</modelVersion>
 
-    <groupId>KA</groupId>
+    <groupId>com.github.KhaldAttya</groupId>
     <artifactId>Aeye</artifactId>
     <version>1.0</version>
     <packaging>jar</packaging>
@@ -12,6 +12,17 @@
     <name>Aeye</name>
 
     <url>https://github.com/KhaldAttya/Aeye</url>
+    <licenses>
+        <license>
+            <name>Apache License, Version 2.0</name>
+            <url>http://www.apache.org/licenses/LICENSE-2.0.txt</url>
+            <distribution>repo</distribution>
+        </license>
+    </licenses>
+
+    <scm>
+        <url>https://svn.apache.org/viewvc/maven</url>
+    </scm>
 
     <properties>
         <maven.compiler.source>1.8</maven.compiler.source>
