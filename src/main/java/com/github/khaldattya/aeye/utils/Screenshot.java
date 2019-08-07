@@ -1,4 +1,4 @@
-package com.github.khaldattya.aeye.utils;
+package com.github.KhaldAttya.Aeye.utils;
 import org.openqa.selenium.By;
 import org.openqa.selenium.OutputType;
 import org.openqa.selenium.TakesScreenshot;

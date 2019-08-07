@@ -1,4 +1,4 @@
-package com.github.khaldattya.aeye.utils;
+package com.github.KhaldAttya.Aeye.utils;
 
 import java.awt.Graphics2D;
 import java.awt.Image;

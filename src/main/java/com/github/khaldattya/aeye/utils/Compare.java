@@ -1,4 +1,4 @@
-package com.github.khaldattya.aeye.utils;
+package com.github.KhaldAttya.Aeye.utils;
 import com.github.romankh3.image.comparison.ImageComparison;
 import com.github.romankh3.image.comparison.model.ComparisonResult;
 import com.github.romankh3.image.comparison.model.ComparisonState;

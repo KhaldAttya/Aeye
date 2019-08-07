@@ -1,4 +1,4 @@
-package com.github.khaldattya.aeye;
+package com.github.KhaldAttya.Aeye;
 /**Main class to use Aeye library
  * @author Khaled Attia
  * @author https://github.com/KhaldAttya
@@ -7,8 +7,8 @@ package com.github.khaldattya.aeye;
 import java.io.IOException;
 import org.openqa.selenium.By;
 import io.appium.java_client.AppiumDriver;
-import com.github.khaldattya.aeye.utils.Compare;
-import com.github.khaldattya.aeye.utils.Screenshot;
+import com.github.KhaldAttya.Aeye.utils.Compare;
+import com.github.KhaldAttya.Aeye.utils.Screenshot;
 
 public final class Aeye {
 
