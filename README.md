@@ -9,9 +9,10 @@ using Java and appium
 * Compare images and have the diffrences highlighted 
 
 # Maven dependency
+```xml
 <dependency>
     <groupId>com.github.KhaldAttya</groupId>
     <artifactId>Aeye</artifactId>
     <version>1.0</version>
 </dependency>
-
+```
