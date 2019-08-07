@@ -1,0 +1,34 @@
+-injars target/Aeye-1.0.jar
+-outjars target/Aeye.jar
+
+-libraryjars /Library/Java/JavaVirtualMachines/jdk1.8.0_201.jdk/Contents/Home/jre/lib/rt.jar
+
+-dontskipnonpubliclibraryclassmembers
+-dontshrink
+-dontoptimize
+-keepparameternames
+-ignorewarnings
+
+
+
+-keepclasseswithmembers,allowshrinking class Aeye {
+    *** compareImages(...);
+    *** takeElementScreenshot(...);
+    *** takeAppScreenshot(...);
+}
+
+# Also keep - Enumerations. Keep the special static methods that are required in
+# enumeration classes.
+-keepclassmembers enum  * {
+    public static **[] values();
+    public static ** valueOf(java.lang.String);
+}
+
+# Also keep - Database drivers. Keep all implementations of java.sql.Driver.
+-keep class * extends java.sql.Driver
+
+# Also keep - Swing UI L&F. Keep all extensions of javax.swing.plaf.ComponentUI,
+# along with the special 'createUI' method.
+-keep class * extends javax.swing.plaf.ComponentUI {
+    public static javax.swing.plaf.ComponentUI createUI(javax.swing.JComponent);
+}

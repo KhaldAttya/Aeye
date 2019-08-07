@@ -9,7 +9,7 @@
     <version>1.0</version>
     <packaging>jar</packaging>
 
-    <name>Aeyes</name>
+    <name>Aeye</name>
 
     <url></url>
 
@@ -24,11 +24,7 @@
 		    <artifactId>java-client</artifactId>
 		    <version>4.1.2</version>
 		</dependency>
-
-        <dependency>
-            <groupId>com.github.romankh3</groupId>
-            <artifactId>image-comparison</artifactId>
-            <version>3.1.1</version>
-        </dependency>
+		
+   
     </dependencies>
 </project>
