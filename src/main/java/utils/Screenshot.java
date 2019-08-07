@@ -10,26 +10,26 @@ import java.io.IOException;
 import javax.imageio.ImageIO;
 public  class Screenshot {
 
-	public static void takeElementScreenshot(AppiumDriver<?> mobiledriver,By locator,String path) throws IOException {
+	public static void takeElementScreenshot(AppiumDriver<?> driver,By locator,String path) throws IOException {
 		
-		File fullScreenshot = ((TakesScreenshot)mobiledriver).getScreenshotAs(OutputType.FILE);
+		File fullScreenshot = ((TakesScreenshot)driver).getScreenshotAs(OutputType.FILE);
 		
 
 
 		BufferedImage originalImage = ImageIO.read(fullScreenshot);
 
-		if(mobiledriver.manage().window().getSize().getWidth()
-				!=originalImage.getWidth() | mobiledriver.manage().window().getSize().getHeight()
+		if(driver.manage().window().getSize().getWidth()
+				!=originalImage.getWidth() | driver.manage().window().getSize().getHeight()
 						!=originalImage.getHeight()) {
-			originalImage = Resize.resize(originalImage,mobiledriver.manage().window().getSize().getWidth(),
-					mobiledriver.manage().window().getSize().getHeight());
+			originalImage = Resize.resize(originalImage,driver.manage().window().getSize().getWidth(),
+					driver.manage().window().getSize().getHeight());
 			
 		}
 		
-			int x=mobiledriver.findElement(locator).getRect().getX();
-			int y=mobiledriver.findElement(locator).getRect().getY();
-			int w=mobiledriver.findElement(locator).getRect().getWidth();
-			int h=mobiledriver.findElement(locator).getRect().getHeight(); 
+			int x=driver.findElement(locator).getRect().getX();
+			int y=driver.findElement(locator).getRect().getY();
+			int w=driver.findElement(locator).getRect().getWidth();
+			int h=driver.findElement(locator).getRect().getHeight();
 			
 			if(y+h>originalImage.getHeight()) {
 		           originalImage = Resize.resize(originalImage,originalImage.getWidth(),y+h);
@@ -87,7 +87,7 @@ public static void takeAppScreenshot(AppiumDriver<?> mobiledriver,By statusBar,S
 	
 	
 
-public static void takeElementFromZeplin(AppiumDriver<?> mobiledriver,int x, int y,int width,int height,String zeplinScreenPath,String elementScreenPath) throws IOException {
+public static void takeElementFromDesign(AppiumDriver<?> mobiledriver,int x, int y,int width,int height,String zeplinScreenPath,String elementScreenPath) throws IOException {
 	
 
 	BufferedImage originalImage = ImageIO.read(new File(zeplinScreenPath));

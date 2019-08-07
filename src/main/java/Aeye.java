@@ -9,16 +9,16 @@ import utils.Screenshot;
 public final class Aeye {
 	
 	
-	public static void takeElementScreenshot(AppiumDriver<?> mobiledriver,By locator,String filePath) throws IOException {
-		Screenshot.takeElementScreenshot(mobiledriver, locator, filePath);
+	public static void takeElementScreenshot(AppiumDriver<?> driver,By locator,String filePath) throws IOException {
+		Screenshot.takeElementScreenshot(driver, locator, filePath);
 	}
 	
-	public static void takeElementFromZeplin(AppiumDriver<?> mobiledriver,int x, int y,int width,int height,String zeplinScreenPath,String elementScreenPath) throws IOException {
-		Screenshot.takeElementFromZeplin(mobiledriver, x, y, width, height, zeplinScreenPath,elementScreenPath);
+	public static void takeElementFromDesign(AppiumDriver<?> driver,int x, int y,int width,int height,String DesignScreenPath,String elementScreenPath) throws IOException {
+		Screenshot.takeElementFromDesign(driver, x, y, width, height, DesignScreenPath,elementScreenPath);
 	}
 	
-	public static void takeAppScreenshot(AppiumDriver<?> mobiledriver,By statusBar,String filePath) throws IOException {
-		Screenshot.takeAppScreenshot(mobiledriver, statusBar, filePath);
+	public static void takeAppScreenshot(AppiumDriver<?> driver,By statusBar,String filePath) throws IOException {
+		Screenshot.takeAppScreenshot(driver, statusBar, filePath);
 	}
 	
 	public static boolean compareImages(String actual, String expected,String result) throws IOException {

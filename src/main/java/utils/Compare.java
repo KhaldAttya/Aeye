@@ -1,4 +1,8 @@
 package utils;
+import com.github.romankh3.image.comparison.ImageComparison;
+import com.github.romankh3.image.comparison.model.ComparisonResult;
+import com.github.romankh3.image.comparison.model.ComparisonState;
+
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
@@ -29,7 +33,7 @@ public final class Compare {
 				
 				
 		        ImageIO.write(resultImage, "png", resultDestination);
-		        return comparisonResult.getComparisonState()==ComparisonState.MATCH;
+		        return comparisonResult.getComparisonState()== ComparisonState.MATCH;
 		       
 		
 	}
