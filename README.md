@@ -13,6 +13,6 @@ using Java and appium
 <dependency>
     <groupId>com.github.KhaldAttya</groupId>
     <artifactId>Aeye</artifactId>
-    <version>1.0</version>
+    <version>1.1</version>
 </dependency>
 ```
