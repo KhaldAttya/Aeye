@@ -65,8 +65,6 @@ public final class Aeye {
      * @throws IOException as it's handling file path of image.
      */
     public static boolean compareImages(String actual, String expected, String result) throws IOException {
-
         return Compare.compareImages(actual, expected, result);
-
     }
 }
