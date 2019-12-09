@@ -3,10 +3,9 @@ package com.github.KhaldAttya.Aeye.utils;
 import java.awt.Graphics2D;
 import java.awt.Image;
 import java.awt.image.BufferedImage;
-import java.io.IOException;
 
-/** Utility class for resizing images.
- *
+/**
+ * Utility class for resizing images.
  */
 class Resize {
 
