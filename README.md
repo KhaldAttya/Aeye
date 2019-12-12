@@ -16,3 +16,7 @@ using Java and appium
     <version>1.1</version>
 </dependency>
 ```
+# Gradle dependency
+```groovy
+compile 'com.github.KhaldAttya:Aeye:1.1'
+```

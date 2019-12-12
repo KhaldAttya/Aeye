@@ -4,6 +4,7 @@ import io.appium.java_client.AppiumDriver;
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
+import java.util.logging.Logger;
 import javax.imageio.ImageIO;
 import org.openqa.selenium.By;
 import org.openqa.selenium.OutputType;
@@ -13,6 +14,8 @@ import org.openqa.selenium.TakesScreenshot;
  * Screenshot class containing screenshot different functions.
  */
 public class Screenshot {
+
+    private static final Logger LOGGER = Logger.getLogger(Screenshot.class.getName());
 
     /**
      * Taking mobile element screenshot eg. Button or section of screen.
@@ -50,13 +53,11 @@ public class Screenshot {
 
         BufferedImage SubImage = originalImage.getSubimage(x, y, w, h);
 
-        System.out.println("Element dimension: " + SubImage.getWidth() + "x" + SubImage.getHeight());
+        LOGGER.info(() -> "Element dimension: " + SubImage.getWidth() + "x" + SubImage.getHeight());
 
         ImageIO.write(SubImage, "png", new File(filePath));
 
-        System.out.println("Element screenshot was taken successfully: " + filePath);
-
-
+        LOGGER.info(() -> "Element screenshot was taken successfully: " + filePath);
     }
 
     /**
@@ -86,12 +87,11 @@ public class Screenshot {
 
         BufferedImage SubImage = originalImage.getSubimage(0, h, w, (originalImage.getHeight() - h));
 
-        System.out.println("Screen dimension: " + SubImage.getWidth() + "x" + SubImage.getHeight());
+        LOGGER.info(() -> "Screen dimension: " + SubImage.getWidth() + "x" + SubImage.getHeight());
 
         ImageIO.write(SubImage, "png", new File(filePath));
 
-        System.out.println("Element screenshot was taken successfully: " + filePath);
-
+        LOGGER.info(() -> "Element screenshot was taken successfully: " + filePath);
     }
 
     /**
@@ -106,7 +106,6 @@ public class Screenshot {
      * @param elementScreenPath path to save the cropped element.
      * @throws IOException as it's handling file path of image.
      */
-
     public static void takeElementFromDesign(AppiumDriver<?> driver, int x, int y, int width, int height,
             String designScreenPath, String elementScreenPath) throws IOException {
 
@@ -125,14 +124,10 @@ public class Screenshot {
          * }
          */
 
-        System.out.println("Element dimension: " + SubImage.getWidth() + "x" + SubImage.getHeight());
+        LOGGER.info(() -> "Element dimension: " + SubImage.getWidth() + "x" + SubImage.getHeight());
 
         ImageIO.write(SubImage, "png", new File(elementScreenPath));
 
-        System.out.println("Element screenshot was taken successfully: " + elementScreenPath);
-
-
+        LOGGER.info(() -> "Element screenshot was taken successfully: " + elementScreenPath);
     }
-
-
 }
