@@ -1,5 +1,6 @@
 package com.github.KhaldAttya.Aeye.utils;
 
+import com.github.romankh3.image.comparison.ImageComparisonUtil;
 import io.appium.java_client.AppiumDriver;
 import java.awt.image.BufferedImage;
 import java.io.File;
@@ -34,7 +35,7 @@ public class Screenshot {
         if (driver.manage().window().getSize().getWidth()
                 != originalImage.getWidth() | driver.manage().window().getSize().getHeight()
                 != originalImage.getHeight()) {
-            originalImage = Resize.resize(originalImage, driver.manage().window().getSize().getWidth(),
+            originalImage = ImageComparisonUtil.resize(originalImage, driver.manage().window().getSize().getWidth(),
                     driver.manage().window().getSize().getHeight());
 
         }
@@ -45,10 +46,10 @@ public class Screenshot {
         int h = driver.findElement(locator).getRect().getHeight();
 
         if (y + h > originalImage.getHeight()) {
-            originalImage = Resize.resize(originalImage, originalImage.getWidth(), y + h);
+            originalImage = ImageComparisonUtil.resize(originalImage, originalImage.getWidth(), y + h);
         }
         if (x + w > originalImage.getWidth()) {
-            originalImage = Resize.resize(originalImage, x + w, originalImage.getHeight());
+            originalImage = ImageComparisonUtil.resize(originalImage, x + w, originalImage.getHeight());
         }
 
         BufferedImage SubImage = originalImage.getSubimage(x, y, w, h);
@@ -77,7 +78,7 @@ public class Screenshot {
         if (driver.manage().window().getSize().getWidth()
                 != originalImage.getWidth() | driver.manage().window().getSize().getHeight()
                 != originalImage.getHeight()) {
-            originalImage = Resize.resize(originalImage, driver.manage().window().getSize().getWidth(),
+            originalImage = ImageComparisonUtil.resize(originalImage, driver.manage().window().getSize().getWidth(),
                     driver.manage().window().getSize().getHeight());
 
         }

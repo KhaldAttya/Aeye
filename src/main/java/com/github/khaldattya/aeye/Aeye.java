@@ -19,11 +19,11 @@ public final class Aeye {
      *
      * @param driver Appium driver instance should be initiated in your test.
      * @param locator By object of locator for the element needed to get screenshot of.
-     * @param filePath File path to save the screenshot to.
+     * @param taregtFilePath File path to save the screenshot to.
      * @throws IOException as it's handling file path of image.
      */
-    public static void takeElementScreenshot(AppiumDriver<?> driver, By locator, String filePath) throws IOException {
-        Screenshot.takeElementScreenshot(driver, locator, filePath);
+    public static void takeElementScreenshot(AppiumDriver<?> driver, By locator, String taregtFilePath) throws IOException {
+        Screenshot.takeElementScreenshot(driver, locator, taregtFilePath);
     }
 
     /**
@@ -35,12 +35,12 @@ public final class Aeye {
      * @param width element width in pt or dp.
      * @param height element height in pt or dp.
      * @param designScreenPath path of screen image.
-     * @param elementScreenPath path to save the cropped element.
+     * @param taregtFilePath path to save the cropped element.
      * @throws IOException as it's handling file path of image.
      */
     public static void takeElementFromDesign(AppiumDriver<?> driver, int x, int y, int width, int height,
-            String designScreenPath, String elementScreenPath) throws IOException {
-        Screenshot.takeElementFromDesign(driver, x, y, width, height, designScreenPath, elementScreenPath);
+            String designScreenPath, String taregtFilePath) throws IOException {
+        Screenshot.takeElementFromDesign(driver, x, y, width, height, designScreenPath, taregtFilePath);
     }
 
     /**
