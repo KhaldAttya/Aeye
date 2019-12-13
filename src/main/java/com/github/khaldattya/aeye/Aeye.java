@@ -2,9 +2,20 @@ package com.github.KhaldAttya.Aeye;
 
 import com.github.KhaldAttya.Aeye.utils.Compare;
 import com.github.KhaldAttya.Aeye.utils.Screenshot;
+import com.github.romankh3.image.comparison.ImageComparison;
+import com.github.romankh3.image.comparison.ImageComparisonUtil;
+import com.github.romankh3.image.comparison.model.ImageComparisonResult;
+import com.github.romankh3.image.comparison.model.ImageComparisonState;
 import io.appium.java_client.AppiumDriver;
+
+import java.awt.image.BufferedImage;
+import java.io.File;
 import java.io.IOException;
 import org.openqa.selenium.By;
+import org.openqa.selenium.OutputType;
+import org.openqa.selenium.TakesScreenshot;
+
+import javax.imageio.ImageIO;
 
 /**
  * Main class to use Aeye library
@@ -13,17 +24,26 @@ import org.openqa.selenium.By;
  * @author https://github.com/KhaldAttya
  */
 public final class Aeye {
+    static AppiumDriver<?> driver;
+    static String baselineRepo;
+    static String actualRepo;
+    static String resultRepo;
 
+
+    Aeye(AppiumDriver<?> driver,String baselineRepo){
+        this.driver=driver;
+        this.baselineRepo=baselineRepo;
+    }
     /**
      * Taking mobile element screenshot eg. Button or section of screen.
      *
      * @param driver Appium driver instance should be initiated in your test.
      * @param locator By object of locator for the element needed to get screenshot of.
-     * @param taregtFilePath File path to save the screenshot to.
+     * @param targetFilePath File path to save the screenshot to.
      * @throws IOException as it's handling file path of image.
      */
-    public static void takeElementScreenshot(AppiumDriver<?> driver, By locator, String taregtFilePath) throws IOException {
-        Screenshot.takeElementScreenshot(driver, locator, taregtFilePath);
+    public static void takeElementScreenshot(AppiumDriver<?> driver, By locator, String targetFilePath) throws IOException {
+        Screenshot.takeElementScreenshot(driver, locator, targetFilePath);
     }
 
     /**
@@ -35,12 +55,12 @@ public final class Aeye {
      * @param width element width in pt or dp.
      * @param height element height in pt or dp.
      * @param designScreenPath path of screen image.
-     * @param taregtFilePath path to save the cropped element.
+     * @param targetFilePath path to save the cropped element.
      * @throws IOException as it's handling file path of image.
      */
     public static void takeElementFromDesign(AppiumDriver<?> driver, int x, int y, int width, int height,
-            String designScreenPath, String taregtFilePath) throws IOException {
-        Screenshot.takeElementFromDesign(driver, x, y, width, height, designScreenPath, taregtFilePath);
+            String designScreenPath, String targetFilePath) throws IOException {
+        Screenshot.takeElementFromDesign(driver, x, y, width, height, designScreenPath, targetFilePath);
     }
 
     /**
@@ -48,11 +68,11 @@ public final class Aeye {
      *
      * @param driver Appium driver instance should be initiated in your test.
      * @param statusBar By object of locator for status bar.
-     * @param filePath file path to save screenshot to.
+     * @param targetFilePath file path to save screenshot to.
      * @throws IOException as it's handling file path of image.
      */
-    public static void takeAppScreenshot(AppiumDriver<?> driver, By statusBar, String filePath) throws IOException {
-        Screenshot.takeAppScreenshot(driver, statusBar, filePath);
+    public static void takeAppScreenshot(AppiumDriver<?> driver, By statusBar, String targetFilePath) throws IOException {
+        Screenshot.takeAppScreenshot(driver, statusBar, targetFilePath);
     }
 
     /**
@@ -65,5 +85,15 @@ public final class Aeye {
      */
     public static boolean compareImages(String actual, String expected, String result) {
         return Compare.compareImages(actual, expected, result);
+    }
+
+    public static boolean see(String baseline) throws IOException {
+        File fullScreenshot = ((TakesScreenshot) driver).getScreenshotAs(OutputType.FILE);
+        BufferedImage originalImage = ImageIO.read(fullScreenshot);
+        ImageComparisonResult comparisonResult = new ImageComparison(baselineRepo+File.separator+baseline, actualRepo+File.separator+baseline)
+                .compareImages();
+
+        ImageComparisonUtil.saveImage(new File(resultRepo+File.separator+baseline), comparisonResult.getResult());
+        return comparisonResult.getImageComparisonState() == ImageComparisonState.MATCH;
     }
 }

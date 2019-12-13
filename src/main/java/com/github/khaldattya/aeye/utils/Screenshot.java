@@ -29,7 +29,6 @@ public class Screenshot {
     public static void takeElementScreenshot(AppiumDriver<?> driver, By locator, String filePath) throws IOException {
 
         File fullScreenshot = ((TakesScreenshot) driver).getScreenshotAs(OutputType.FILE);
-
         BufferedImage originalImage = ImageIO.read(fullScreenshot);
 
         if (driver.manage().window().getSize().getWidth()
