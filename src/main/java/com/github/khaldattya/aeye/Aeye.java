@@ -87,13 +87,13 @@ public final class Aeye {
         return Compare.compareImages(actual, expected, result);
     }
 
-    public static boolean see(String baseline) throws IOException {
+    public static boolean see(String screenName) throws IOException {
         File fullScreenshot = ((TakesScreenshot) driver).getScreenshotAs(OutputType.FILE);
         BufferedImage originalImage = ImageIO.read(fullScreenshot);
-        ImageComparisonResult comparisonResult = new ImageComparison(baselineRepo+File.separator+baseline, actualRepo+File.separator+baseline)
+        ImageComparisonResult comparisonResult = new ImageComparison(baselineRepo+File.separator+screenName, actualRepo+File.separator+screenName)
                 .compareImages();
 
-        ImageComparisonUtil.saveImage(new File(resultRepo+File.separator+baseline), comparisonResult.getResult());
+        ImageComparisonUtil.saveImage(new File(resultRepo+File.separator+screenName), comparisonResult.getResult());
         return comparisonResult.getImageComparisonState() == ImageComparisonState.MATCH;
     }
 }
