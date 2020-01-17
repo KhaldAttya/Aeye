@@ -6,7 +6,7 @@
 
     <groupId>com.github.KhaldAttya</groupId>
     <artifactId>Aeye</artifactId>
-    <version>1.2-SNAPSHOT</version>
+    <version>1.9.24-SNAPSHOT</version>
     <packaging>jar</packaging>
 
     <name>Aeye</name>
@@ -108,6 +108,7 @@
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-gpg-plugin</artifactId>
                 <version>1.5</version>
+
                 <executions>
                     <execution>
                         <id>sign-artifacts</id>
@@ -130,6 +131,7 @@
                     <autoReleaseAfterClose>true</autoReleaseAfterClose>
                 </configuration>
             </plugin>-->
+
 
         </plugins>
     </build>

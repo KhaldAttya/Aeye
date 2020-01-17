@@ -1,20 +1,18 @@
 package com.github.KhaldAttya.Aeye;
 
-import com.github.KhaldAttya.Aeye.utils.Compare;
 import com.github.KhaldAttya.Aeye.utils.Screenshot;
 import com.github.romankh3.image.comparison.ImageComparison;
-import com.github.romankh3.image.comparison.ImageComparisonUtil;
 import com.github.romankh3.image.comparison.model.ImageComparisonResult;
 import com.github.romankh3.image.comparison.model.ImageComparisonState;
+import com.github.romankh3.image.comparison.model.Rectangle;
 import io.appium.java_client.AppiumDriver;
-
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
+import java.util.Arrays;
+import java.util.List;
 import org.openqa.selenium.By;
-import org.openqa.selenium.OutputType;
-import org.openqa.selenium.TakesScreenshot;
-
+import org.openqa.selenium.Point;
 import javax.imageio.ImageIO;
 
 /**
@@ -28,72 +26,104 @@ public final class Aeye {
     static String baselineRepo;
     static String actualRepo;
     static String resultRepo;
+    static int threshold=5;
+    static int rectangleLineWidth=1;
+    static double pixelToleranceLevel = 0.1D;
 
 
-    Aeye(AppiumDriver<?> driver,String baselineRepo){
-        this.driver=driver;
-        this.baselineRepo=baselineRepo;
+
+    private ImageComparison imageComparison;
+
+    public static void setPaths(String reposPath){
+        Aeye.baselineRepo=reposPath+File.separator+"baseline";
+        Aeye.actualRepo=reposPath+File.separator+"actual";
+        Aeye.resultRepo=reposPath+File.separator+"result";
     }
-    /**
-     * Taking mobile element screenshot eg. Button or section of screen.
-     *
-     * @param driver Appium driver instance should be initiated in your test.
-     * @param locator By object of locator for the element needed to get screenshot of.
-     * @param targetFilePath File path to save the screenshot to.
-     * @throws IOException as it's handling file path of image.
-     */
-    public static void takeElementScreenshot(AppiumDriver<?> driver, By locator, String targetFilePath) throws IOException {
-        Screenshot.takeElementScreenshot(driver, locator, targetFilePath);
-    }
-
-    /**
-     * Cropping Element with dimensions in pt or dp from design screen.
-     *
-     * @param driver Appium driver instance should be initiated in your test.
-     * @param x x coordinate of the element in pt or dp.
-     * @param y y coordinate of the element in pt or dp.
-     * @param width element width in pt or dp.
-     * @param height element height in pt or dp.
-     * @param designScreenPath path of screen image.
-     * @param targetFilePath path to save the cropped element.
-     * @throws IOException as it's handling file path of image.
-     */
-    public static void takeElementFromDesign(AppiumDriver<?> driver, int x, int y, int width, int height,
-            String designScreenPath, String targetFilePath) throws IOException {
-        Screenshot.takeElementFromDesign(driver, x, y, width, height, designScreenPath, targetFilePath);
+    public static void setDriver(AppiumDriver<?> driver){
+        Aeye.driver=driver;
     }
 
-    /**
-     * Taking screenshot of the whole app screen without status bar.
-     *
-     * @param driver Appium driver instance should be initiated in your test.
-     * @param statusBar By object of locator for status bar.
-     * @param targetFilePath file path to save screenshot to.
-     * @throws IOException as it's handling file path of image.
-     */
-    public static void takeAppScreenshot(AppiumDriver<?> driver, By statusBar, String targetFilePath) throws IOException {
-        Screenshot.takeAppScreenshot(driver, statusBar, targetFilePath);
+    public static void setThreshold(int threshold){
+        Aeye.threshold=threshold;
     }
 
+    public void setRectangleLineWidth(int rectangleLineWidth){
+       Aeye.rectangleLineWidth=rectangleLineWidth;
+    }
+    public void setPixelToleranceLevel(int pixelToleranceLevel){
+        Aeye.pixelToleranceLevel=pixelToleranceLevel;
+    }
+
+     static Rectangle getElementRectangle(By element) {
+
+        Point elementLocation =  driver.findElement(element).getLocation();
+        int elementWidth =  driver.findElement(element).getSize().width;
+        int elementHeight =  driver.findElement(element).getSize().height;
+
+        int elementMinX = (int) elementLocation.x;
+        int elementMinY = (int) elementLocation.y;
+        int elementMaxX = elementMinX + elementWidth;
+        int elementMaxY = elementMinY + elementHeight;
+
+        return new Rectangle(elementMinX,elementMinY,elementMaxX,elementMaxY);
+    }
+
+    public Aeye exclude(By element) {
+        List<Rectangle> rects= Arrays.asList(getElementRectangle(element));
+        imageComparison.setExcludedAreas(rects);
+        return this;
+    }
+    public Aeye exclude(By ... elements) {
+        List<Rectangle> rects=Arrays.asList();
+        for (By element:elements) {
+            rects= Arrays.asList(getElementRectangle(element));
+        }
+        imageComparison.setExcludedAreas(rects);
+        return this;
+    }
+
+    public Aeye exclude(Rectangle rectangle) {
+        List<Rectangle> rects=Arrays.asList(rectangle);
+        imageComparison.setExcludedAreas(rects);
+        return this;
+    }
+    public Aeye exclude(Rectangle ... rectangles) {
+        List<Rectangle> rects=Arrays.asList();
+        for (Rectangle rectangle:rectangles){
+            rects= Arrays.asList(rectangle); 
+        }
+        imageComparison.setExcludedAreas(rects);
+        return this;
+    }
     /**
      * Image comparison function which highlights differences and save the results image.
      *
-     * @param actual File path to the actual screen.
-     * @param expected File path to the expected screen.
-     * @param result File path to save the results to.
-     * @return Returns boolean representing if the actual and expected screens are matching or not.
      */
-    public static boolean compareImages(String actual, String expected, String result) {
-        return Compare.compareImages(actual, expected, result);
+    public  void compare() throws IOException {
+        ImageComparisonResult comparisonResult = imageComparison.compareImages();
+        if (comparisonResult.getImageComparisonState() != ImageComparisonState.MATCH) throw new AssertionError();
     }
 
-    public static boolean see(String screenName) throws IOException {
-        File fullScreenshot = ((TakesScreenshot) driver).getScreenshotAs(OutputType.FILE);
-        BufferedImage originalImage = ImageIO.read(fullScreenshot);
-        ImageComparisonResult comparisonResult = new ImageComparison(baselineRepo+File.separator+screenName, actualRepo+File.separator+screenName)
-                .compareImages();
-
-        ImageComparisonUtil.saveImage(new File(resultRepo+File.separator+screenName), comparisonResult.getResult());
-        return comparisonResult.getImageComparisonState() == ImageComparisonState.MATCH;
+    public Aeye see(String screenName) throws IOException {
+        Screenshot.takeFullScreenshot(driver,actualRepo+File.separator+screenName+".png");
+        createImageComparisonInstance(screenName);
+        return this;
     }
+
+    public Aeye see(String screenName,By element) throws IOException {
+        Screenshot.takeElementScreenshot(driver,element,actualRepo+File.separator+screenName);
+        createImageComparisonInstance(screenName);
+        return this;
+    }
+
+    void createImageComparisonInstance(String screenName) throws IOException {
+        BufferedImage actual = ImageIO.read(new File(actualRepo + File.separator + screenName + ".png"));
+        BufferedImage baseline = ImageIO.read(new File(baselineRepo + File.separator + screenName + ".png"));
+        File result = new File(resultRepo + File.separator + screenName + ".png");
+        imageComparison = new ImageComparison(actual, baseline, result);
+        imageComparison.setThreshold(threshold);
+        imageComparison.setRectangleLineWidth(rectangleLineWidth);
+        imageComparison.setPixelToleranceLevel(pixelToleranceLevel);
+    }
+
 }

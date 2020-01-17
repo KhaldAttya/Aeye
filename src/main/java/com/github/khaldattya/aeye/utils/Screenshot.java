@@ -22,6 +22,26 @@ public class Screenshot {
      * Taking mobile element screenshot eg. Button or section of screen.
      *
      * @param driver Appium driver instance should be initiated in your test.
+     * @param filePath File path to save the screenshot to.
+     * @throws IOException as it's handling file path of image.
+     */
+    public static void takeFullScreenshot(AppiumDriver<?> driver, String filePath) throws IOException {
+
+        File fullScreenshot = ((TakesScreenshot) driver).getScreenshotAs(OutputType.FILE);
+        BufferedImage originalImage = ImageIO.read(fullScreenshot);
+
+        BufferedImage finalOriginalImage = originalImage;
+        LOGGER.info(() -> "Element dimension: " + finalOriginalImage.getWidth() + "x" + finalOriginalImage.getHeight());
+
+        ImageIO.write(originalImage, "png", new File(filePath));
+
+        LOGGER.info(() -> "Element screenshot was taken successfully: " + filePath);
+    }
+
+    /**
+     * Taking mobile element screenshot eg. Button or section of screen.
+     *
+     * @param driver Appium driver instance should be initiated in your test.
      * @param locator By object of locator for the element needed to get screenshot of.
      * @param filePath File path to save the screenshot to.
      * @throws IOException as it's handling file path of image.
@@ -112,17 +132,6 @@ public class Screenshot {
         BufferedImage originalImage = ImageIO.read(new File(designScreenPath));
 
         BufferedImage SubImage = originalImage.getSubimage(x * 2, y * 2, width * 2, height * 2);
-
-        /*
-         * if(mobiledriver.manage().window().getSize().getWidth()
-         * !=originalImage.getWidth() |
-         * mobiledriver.manage().window().getSize().getHeight()
-         * !=originalImage.getHeight()) { originalImage =
-         * Resize.resize(originalImage,mobiledriver.manage().window().getSize().getWidth
-         * (), mobiledriver.manage().window().getSize().getHeight());
-         *
-         * }
-         */
 
         LOGGER.info(() -> "Element dimension: " + SubImage.getWidth() + "x" + SubImage.getHeight());
 
