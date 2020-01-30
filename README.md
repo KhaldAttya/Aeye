@@ -3,6 +3,9 @@
 Mobile visual testing framework
 using Java and appium
 
+# Usage example 
+https://github.com/KhaldAttya/Aeye-example
+
 # Maven dependency
 ```xml
 <dependency>
