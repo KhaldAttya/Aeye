@@ -3,20 +3,15 @@
 Mobile visual testing framework
 using Java and appium
 
-# Features
-* Take element screenshots
-* Take app screen shot without status bar
-* Compare images and have the diffrences highlighted 
-
 # Maven dependency
 ```xml
 <dependency>
     <groupId>com.github.KhaldAttya</groupId>
     <artifactId>Aeye</artifactId>
-    <version>1.1</version>
+    <version>1.9</version>
 </dependency>
 ```
 # Gradle dependency
 ```groovy
-compile 'com.github.KhaldAttya:Aeye:1.1'
+compile 'com.github.KhaldAttya:Aeye:1.9'
 ```
