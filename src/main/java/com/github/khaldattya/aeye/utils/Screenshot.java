@@ -25,10 +25,19 @@ public class Screenshot {
      * @param filePath File path to save the screenshot to.
      * @throws IOException as it's handling file path of image.
      */
+
     public static void takeFullScreenshot(AppiumDriver<?> driver, String filePath) throws IOException {
 
         File fullScreenshot = ((TakesScreenshot) driver).getScreenshotAs(OutputType.FILE);
         BufferedImage originalImage = ImageIO.read(fullScreenshot);
+
+        if (driver.manage().window().getSize().getWidth()
+                != originalImage.getWidth() | driver.manage().window().getSize().getHeight()
+                != originalImage.getHeight()) {
+            originalImage = ImageComparisonUtil.resize(originalImage, driver.manage().window().getSize().getWidth(),
+                    driver.manage().window().getSize().getHeight());
+
+        }
 
         BufferedImage finalOriginalImage = originalImage;
         LOGGER.info(() -> "Element dimension: " + finalOriginalImage.getWidth() + "x" + finalOriginalImage.getHeight());
@@ -74,40 +83,6 @@ public class Screenshot {
         BufferedImage SubImage = originalImage.getSubimage(x, y, w, h);
 
         LOGGER.info(() -> "Element dimension: " + SubImage.getWidth() + "x" + SubImage.getHeight());
-
-        ImageIO.write(SubImage, "png", new File(filePath));
-
-        LOGGER.info(() -> "Element screenshot was taken successfully: " + filePath);
-    }
-
-    /**
-     * Taking screenshot of the whole app screen without status bar.
-     *
-     * @param driver Appium driver instance should be initiated in your test.
-     * @param statusBar By object of locator for status bar.
-     * @param filePath file path to save screenshot to.
-     * @throws IOException as it's handling file path of image.
-     */
-    public static void takeAppScreenshot(AppiumDriver<?> driver, By statusBar, String filePath) throws IOException {
-
-        File fullScreenshot = ((TakesScreenshot) driver).getScreenshotAs(OutputType.FILE);
-
-        BufferedImage originalImage = ImageIO.read(fullScreenshot);
-
-        if (driver.manage().window().getSize().getWidth()
-                != originalImage.getWidth() | driver.manage().window().getSize().getHeight()
-                != originalImage.getHeight()) {
-            originalImage = ImageComparisonUtil.resize(originalImage, driver.manage().window().getSize().getWidth(),
-                    driver.manage().window().getSize().getHeight());
-
-        }
-
-        int w = driver.findElement(statusBar).getRect().getWidth();
-        int h = driver.findElement(statusBar).getRect().getHeight();
-
-        BufferedImage SubImage = originalImage.getSubimage(0, h, w, (originalImage.getHeight() - h));
-
-        LOGGER.info(() -> "Screen dimension: " + SubImage.getWidth() + "x" + SubImage.getHeight());
 
         ImageIO.write(SubImage, "png", new File(filePath));
 
