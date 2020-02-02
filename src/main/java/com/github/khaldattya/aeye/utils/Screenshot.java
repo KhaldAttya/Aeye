@@ -4,6 +4,7 @@ import com.github.romankh3.image.comparison.ImageComparisonUtil;
 import io.appium.java_client.AppiumDriver;
 import java.awt.image.BufferedImage;
 import java.io.File;
+import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.util.logging.Logger;
 import javax.imageio.ImageIO;
@@ -40,11 +41,19 @@ public class Screenshot {
         }
 
         BufferedImage finalOriginalImage = originalImage;
-        LOGGER.info(() -> "Element dimension: " + finalOriginalImage.getWidth() + "x" + finalOriginalImage.getHeight());
+        LOGGER.info(() -> "Screen dimension: " + finalOriginalImage.getWidth() + "x" + finalOriginalImage.getHeight());
 
-        ImageIO.write(originalImage, "png", new File(filePath));
+        File file = new File(filePath);
+        if(file.mkdirs()){
+            ImageIO.write(originalImage, "png", new File(filePath));
+            LOGGER.info(() -> "Screenshot was taken successfully: " + filePath);
+            }
+            else {
+                LOGGER.info(() -> "Directory cannot be created");
+            }
 
-        LOGGER.info(() -> "Element screenshot was taken successfully: " + filePath);
+
+
     }
 
     /**
@@ -84,9 +93,16 @@ public class Screenshot {
 
         LOGGER.info(() -> "Element dimension: " + SubImage.getWidth() + "x" + SubImage.getHeight());
 
-        ImageIO.write(SubImage, "png", new File(filePath));
+        File file = new File(filePath);
+        if(file.mkdirs()){
+            ImageIO.write(SubImage, "png", new File(filePath));
+            LOGGER.info(() -> "Element screenshot was taken successfully: " + filePath);
+        }
+        else {
+            LOGGER.info(() -> "Directory cannot be created");
+        }
 
-        LOGGER.info(() -> "Element screenshot was taken successfully: " + filePath);
+
     }
 
     /**

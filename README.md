@@ -11,10 +11,10 @@ https://github.com/KhaldAttya/Aeye-example
 <dependency>
     <groupId>com.github.KhaldAttya</groupId>
     <artifactId>Aeye</artifactId>
-    <version>1.9</version>
+    <version>1.9.1</version>
 </dependency>
 ```
 # Gradle dependency
 ```groovy
-compile 'com.github.KhaldAttya:Aeye:1.9'
+compile 'com.github.KhaldAttya:Aeye:1.9.1'
 ```
