@@ -6,7 +6,7 @@
 
     <groupId>com.github.KhaldAttya</groupId>
     <artifactId>Aeye</artifactId>
-    <version>1.9.1</version>
+    <version>1.91</version>
     <packaging>jar</packaging>
 
     <name>Aeye</name>
