@@ -11,7 +11,7 @@ https://github.com/KhaldAttya/Aeye-example
 <dependency>
     <groupId>com.github.KhaldAttya</groupId>
     <artifactId>Aeye</artifactId>
-    <version>1.91</version>
+    <version>1.9.5</version>
 </dependency>
 ```
 # Gradle dependency
