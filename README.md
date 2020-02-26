@@ -16,5 +16,5 @@ https://github.com/KhaldAttya/Aeye-example
 ```
 # Gradle dependency
 ```groovy
-compile 'com.github.KhaldAttya:Aeye:1.91'
+compile 'com.github.KhaldAttya:Aeye:1.9.5'
 ```
