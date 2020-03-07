@@ -11,8 +11,15 @@ import java.io.File;
 import java.io.IOException;
 import java.util.Arrays;
 import java.util.List;
+import java.util.logging.Logger;
+
+import net.bytebuddy.implementation.bytecode.Throw;
 import org.openqa.selenium.By;
 import org.openqa.selenium.Point;
+import org.openqa.selenium.WebDriver;
+import ru.yandex.qatools.ashot.coordinates.JqueryCoordsProvider;
+
+import javax.imageio.IIOException;
 import javax.imageio.ImageIO;
 
 /**
@@ -22,7 +29,8 @@ import javax.imageio.ImageIO;
  * @author https://github.com/KhaldAttya
  */
 public class Aeye {
-    static AppiumDriver<?> driver;
+
+    static WebDriver driver;
 
     static String baselineRepo;
     static String actualRepo;
@@ -31,15 +39,21 @@ public class Aeye {
     static int threshold=5;
     static int rectangleLineWidth=1;
     static double pixelToleranceLevel = 0.1D;
+    static double differenceRectangleFilling = 30.0;
+    static boolean differenceRectangleFillingEnabled = false;
+    static double excludedRectangleFilling = 30.0;
+    static boolean excludedRectangleFillingEnabled = false;
 
     private ImageComparison imageComparison;
+    private static final Logger LOGGER = Logger.getLogger(Screenshot.class.getName());
 
     public Aeye(){
 
     }
-    public  Aeye(String reposPath,AppiumDriver<?> driver){
+    public  Aeye(String reposPath,WebDriver driver){
         this.driver=driver;
         setPaths(reposPath);
+        LOGGER.info(() -> "Baseline repo is setup at: " + reposPath + File.separator + "baseline");
     }
 
 
@@ -54,13 +68,6 @@ public class Aeye {
         Aeye.resultRepo=reposPath+File.separator+"result";
     }
 
-    /**
-     * Setting the driver instance.
-     * @param driver driver instance
-     */
-    public static void setDriver(AppiumDriver<?> driver){
-        Aeye.driver=driver;
-    }
 
     /**
      * Setting threshold for image-comparison.
@@ -80,10 +87,18 @@ public class Aeye {
 
     /**
      * Setting pixel tolerance level for image-comparison
-     * @param pixelToleranceLevel
+     * @param pixelToleranceLevel pixel tolerance level for image-comparison
      */
-    public void setPixelToleranceLevel(int pixelToleranceLevel){
+    public void setPixelToleranceLevel(double pixelToleranceLevel){
         Aeye.pixelToleranceLevel=pixelToleranceLevel;
+    }
+    public void setDifferenceRectangleFilling(boolean enabled,double pixelToleranceLevel){
+        Aeye.differenceRectangleFillingEnabled=enabled;
+        Aeye.differenceRectangleFilling=pixelToleranceLevel;
+    }
+    public void setExcludedRectangleFilling(boolean enabled,double pixelToleranceLevel){
+        Aeye.excludedRectangleFillingEnabled = enabled;
+        Aeye.excludedRectangleFilling=pixelToleranceLevel;
     }
 
     private  Rectangle getElementRectangle(By element) {
@@ -96,13 +111,15 @@ public class Aeye {
         int elementMaxX = elementMinX + elementWidth;
         int elementMaxY = elementMinY + elementHeight;
 
+        System.out.println(elementMinX+"-"+elementMinY+"-"+elementMaxX+"-"+elementMaxY);
+
         return new Rectangle(elementMinX,elementMinY,elementMaxX,elementMaxY);
     }
 
     /**
      * Excluding areas from comparison scope.
      * @param element By element to be excluded
-     * @return
+     * @return Aeye object.
      */
     public Aeye exclude(By element) {
         List<Rectangle> rects= Arrays.asList(getElementRectangle(element));
@@ -112,8 +129,8 @@ public class Aeye {
 
     /**
      * Excluding areas from comparison scope.
-     * @param elements By elements to be excluded
-     * @return
+     * @param elements By elements to be exclude
+     * @return Aeye object.
      */
     public Aeye exclude(By ... elements) {
         List<Rectangle> rects=Arrays.asList();
@@ -126,7 +143,7 @@ public class Aeye {
     /**
      * Excluding areas from comparison scope.
      * @param rectangle instance of {@link Rectangle}
-     * @return
+     * @return Aeye object.
      */
     public Aeye exclude(Rectangle rectangle) {
         List<Rectangle> rects=Arrays.asList(rectangle);
@@ -136,7 +153,7 @@ public class Aeye {
     /**
      * Excluding areas from comparison scope.
      * @param rectangles instances of {@link Rectangle}
-     * @return
+     * @return Aeye object.
      */
     public Aeye exclude(Rectangle ... rectangles) {
         List<Rectangle> rects=Arrays.asList();
@@ -146,13 +163,23 @@ public class Aeye {
         imageComparison.setExcludedAreas(rects);
         return this;
     }
+
     /**
-     * Image comparison function which highlights differences and save the results image.
+     * Image comparison function which highlights differences and save the results image
+     * @throws IOException AssertionError
      *
      */
-    public  void compare() throws IOException {
+    public  void compare() throws IOException,AssertionError {
         ImageComparisonResult comparisonResult = imageComparison.compareImages();
-        if (comparisonResult.getImageComparisonState() != ImageComparisonState.MATCH) throw new AssertionError();
+        if (comparisonResult.getImageComparisonState() != ImageComparisonState.MATCH) throw new AssertionError("Mismatching screens!");
+    }
+    /**
+     * Image comparison function which highlights differences and save the results image.
+     * @return boolean with comparison result ( soft Assertions to be implented in project)
+     */
+    public  boolean compare(boolean compareSoftly ) throws IOException {
+        ImageComparisonResult comparisonResult = imageComparison.compareImages();
+       return comparisonResult.getImageComparisonState() != ImageComparisonState.MATCH;
     }
 
     /**
@@ -174,19 +201,29 @@ public class Aeye {
      * @throws IOException
      */
     public Aeye see(String screenName,By element) throws IOException {
-        Screenshot.takeElementScreenshot(driver,element,actualRepo+File.separator+screenName);
+        Screenshot.takeElementScreenshot(driver,element,actualRepo+File.separator+screenName + ".png");
         createImageComparisonInstance(screenName);
         return this;
     }
 
     private void createImageComparisonInstance(String screenName) throws IOException {
         BufferedImage actual = ImageIO.read(new File(actualRepo + File.separator + screenName + ".png"));
-        BufferedImage baseline = ImageIO.read(new File(baselineRepo + File.separator + screenName + ".png"));
+        BufferedImage baseline = null;
+        try {
+            baseline = ImageIO.read(new File(baselineRepo + File.separator + screenName + ".png"));
+        }
+        catch (IIOException e)
+        {
+            LOGGER.info(() -> "Cannot find baseline screen at: " + baselineRepo + File.separator + screenName + ".png");
+            Throw IIOException;
+        }
         File result = new File(resultRepo + File.separator + screenName + ".png");
         imageComparison = new ImageComparison(actual, baseline, result);
         imageComparison.setThreshold(threshold);
         imageComparison.setRectangleLineWidth(rectangleLineWidth);
         imageComparison.setPixelToleranceLevel(pixelToleranceLevel);
+        imageComparison.setDifferenceRectangleFilling(differenceRectangleFillingEnabled,differenceRectangleFilling);
+        imageComparison.setExcludedRectangleFilling(excludedRectangleFillingEnabled,excludedRectangleFilling);
     }
 
 }

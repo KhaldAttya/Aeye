@@ -6,7 +6,7 @@
 
     <groupId>com.github.KhaldAttya</groupId>
     <artifactId>Aeye</artifactId>
-    <version>1.91</version>
+    <version>1.9.6</version>
     <packaging>jar</packaging>
 
     <name>Aeye</name>
@@ -49,9 +49,14 @@
         <dependency>
             <groupId>com.github.romankh3</groupId>
             <artifactId>image-comparison</artifactId>
-            <version>4.0.0</version>
+            <version>4.1.0</version>
         </dependency>
 
+        <dependency>
+            <groupId>ru.yandex.qatools.ashot</groupId>
+            <artifactId>ashot</artifactId>
+            <version>1.5.2</version>
+        </dependency>
 
     </dependencies>
 

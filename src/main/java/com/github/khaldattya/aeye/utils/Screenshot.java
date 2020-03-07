@@ -11,6 +11,10 @@ import javax.imageio.ImageIO;
 import org.openqa.selenium.By;
 import org.openqa.selenium.OutputType;
 import org.openqa.selenium.TakesScreenshot;
+import org.openqa.selenium.WebDriver;
+import ru.yandex.qatools.ashot.AShot;
+import ru.yandex.qatools.ashot.coordinates.JqueryCoordsProvider;
+import ru.yandex.qatools.ashot.shooting.ShootingStrategies;
 
 /**
  * Screenshot class containing screenshot different functions.
@@ -27,32 +31,26 @@ public class Screenshot {
      * @throws IOException as it's handling file path of image.
      */
 
-    public static void takeFullScreenshot(AppiumDriver<?> driver, String filePath) throws IOException {
+    public static void takeFullScreenshot(WebDriver driver, String filePath) throws IOException {
 
-        File fullScreenshot = ((TakesScreenshot) driver).getScreenshotAs(OutputType.FILE);
-        BufferedImage originalImage = ImageIO.read(fullScreenshot);
+        BufferedImage originalImage = new AShot()
+                .takeScreenshot(driver).getImage();
 
-        if (driver.manage().window().getSize().getWidth()
+       /* if (driver.manage().window().getSize().getWidth()
                 != originalImage.getWidth() | driver.manage().window().getSize().getHeight()
                 != originalImage.getHeight()) {
-            originalImage = ImageComparisonUtil.resize(originalImage, driver.manage().window().getSize().getWidth(),
-                    driver.manage().window().getSize().getHeight());
 
-        }
+        }*/
+        BufferedImage finalOriginalImage = ImageComparisonUtil.resize(originalImage, driver.manage().window().getSize().getWidth(),
+                driver.manage().window().getSize().getHeight());
 
-        BufferedImage finalOriginalImage = originalImage;
         LOGGER.info(() -> "Screen dimension: " + finalOriginalImage.getWidth() + "x" + finalOriginalImage.getHeight());
 
         File file = new File(filePath);
-        if(file.mkdirs()){
-            ImageIO.write(originalImage, "png", new File(filePath));
-            LOGGER.info(() -> "Screenshot was taken successfully: " + filePath);
-            }
-            else {
-                LOGGER.info(() -> "Directory cannot be created");
-            }
+        file.mkdirs();
+        ImageIO.write(finalOriginalImage, "png", file);
 
-
+        LOGGER.info(() -> "Screenshot was taken successfully: " + filePath);
 
     }
 
@@ -64,7 +62,7 @@ public class Screenshot {
      * @param filePath File path to save the screenshot to.
      * @throws IOException as it's handling file path of image.
      */
-    public static void takeElementScreenshot(AppiumDriver<?> driver, By locator, String filePath) throws IOException {
+    public static void takeElementScreenshot(WebDriver driver, By locator, String filePath) throws IOException {
 
         File fullScreenshot = ((TakesScreenshot) driver).getScreenshotAs(OutputType.FILE);
         BufferedImage originalImage = ImageIO.read(fullScreenshot);
@@ -94,15 +92,9 @@ public class Screenshot {
         LOGGER.info(() -> "Element dimension: " + SubImage.getWidth() + "x" + SubImage.getHeight());
 
         File file = new File(filePath);
-        if(file.mkdirs()){
-            ImageIO.write(SubImage, "png", new File(filePath));
-            LOGGER.info(() -> "Element screenshot was taken successfully: " + filePath);
-        }
-        else {
-            LOGGER.info(() -> "Directory cannot be created");
-        }
-
-
+        file.mkdirs();
+        ImageIO.write(SubImage, "png", file);
+        LOGGER.info(() -> "Element screenshot was taken successfully: " + filePath);
     }
 
     /**
